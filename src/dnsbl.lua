@@ -227,7 +227,7 @@ function dnsbl_block_banned(txn, st_name)
     local client_ip = txn:get_var("txn.dnsbl_client_ip")
     local is_allowed = txn:get_var("txn.dnsbl_is_allowed")
     local st = core.backends[st_name].stktable
-    local st_lookup, err = _M.stktbl_lookup(txn, st, client_ip)
+    local st_lookup, err = _M.stktbl_lookup(st, client_ip)
 
     --txn:Debug(string.format("DNSBL: st_lookup: %s", inspect(st_lookup)))
 
