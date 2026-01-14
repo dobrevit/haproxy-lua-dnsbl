@@ -203,7 +203,7 @@ function dnsbl_query(txn, st_name, bl_domain, src_var, src_header, sc_index)
     else
         sc_index = tonumber(sc_index) or 0
     end
-    
+
     -- get client IP from the source variable (if set)
     if not utils.is_nil(src_var) then
         client_ip = txn:get_var(src_var)
@@ -304,7 +304,7 @@ function dnsbl_query(txn, st_name, bl_domain, src_var, src_header, sc_index)
     else
         txn.http:req_set_header("X-DNSBL-Is-Allowed", 0)
     end
-    
+
     txn.http:req_set_header("X-DNSBL-Version", _M.version)
     txn.http:req_set_header("X-DNSBL-Client-IP", client_ip)
     txn.http:req_set_header("X-DNSBL-Query", query)
