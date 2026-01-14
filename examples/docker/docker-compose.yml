@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # HAProxy with DNSBL Lua module
+  haproxy:
+    build:
+      context: ./haproxy
+      dockerfile: Dockerfile
+    container_name: haproxy-dnsbl
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - dnsbl-network
+    # Enable DNS resolution for DNSBL queries
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    restart: unless-stopped
+
+  # Simple backend server for testing
+  backend:
+    image: nginx:alpine
+    container_name: backend-server
+    networks:
+      - dnsbl-network
+    # Simple response page
+    volumes:
+      - ./backend/html:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
+networks:
+  dnsbl-network:
+    driver: bridge
